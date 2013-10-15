@@ -8,16 +8,9 @@ use WebService::TaobaoIP;
 
 my $ti = WebService::TaobaoIP->new('110.75.4.179');
 
-my $ip      = $ti->ip;
-my $country = $ti->country;
-my $area    = $ti->area;
-my $region  = $ti->region;
-my $city    = $ti->city;
-my $isp     = $ti->isp;
-
-say $ip;
-say $country;
-say $area;
-say $region;
-say $city;
-say $isp;
+say $ti->ip;
+say $ti->country;
+say $ti->area;
+say $ti->region;
+say $ti->city;
+say $ti->isp;

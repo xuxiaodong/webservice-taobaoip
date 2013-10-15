@@ -123,3 +123,74 @@ sub isp_id {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+WebService::TaobaoIP - Perl interface to Taobao IP API
+
+=head1 VERSION
+
+Version 0.01
+
+=head1 SYNOPSIS
+
+    use WebService::TaobaoIP;
+
+    my $ti = WebService::TaobaoIP->new('123.123.123.123');
+
+    print $ti->ip;
+    print $ti->country;
+    print $ti->area;
+    print $ti->region;
+    print $ti->city;
+    print $ti->isp;
+
+=head1 DESCRIPTION
+
+The WebService::TaobaoIP is a class implementing Taobao IP API. With it, you can get IP location information.
+
+=head1 CONSTRUCTOR METHODS
+
+=head2 $ti = WebService::TaobaoIP->new($ip)
+
+This method constructs a new WebService::TaobaoIP object. You need to provid $ip argment.
+
+=head1 ATTRIBUTES
+
+The following attribute methods are provided.
+
+=head2 $ti->ip
+
+Return IP address.
+
+=head2 $ti->country
+
+Return country.
+
+=head2 $ti->area
+
+Return area.
+
+=head2 $ti->region
+
+Return region.
+
+=head2 $ti->city
+
+Return city.
+
+=head2 $ti->isp
+
+Return ISP.
+
+=head1 AUTHOR
+
+Xiaodong Xu, C<< <xxdlhy at gmail.com> >>
+
+=head1 COPYRIGHT
+
+Copyright 2013 Xiaodong Xu.
+
+This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
