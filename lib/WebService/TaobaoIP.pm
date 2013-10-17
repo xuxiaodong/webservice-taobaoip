@@ -44,82 +44,14 @@ sub _parse {
     }
 }
 
-sub ip {
+sub AUTOLOAD {
     my ($self) = @_;
 
-    return $self->{ip};
-}
+    my ($name) = our $AUTOLOAD =~ /::(\w+)$/;
 
-sub country {
-    my ($self) = @_;
+    croak "`$name' method not exist" unless exists $self->{$name};
 
-    return $self->{country};
-}
-
-sub country_id {
-    my ($self) = @_;
-
-    return $self->{country_id};
-}
-
-sub area {
-    my ($self) = @_;
-
-    return $self->{area};
-}
-
-sub area_id {
-    my ($self) = @_;
-
-    return $self->{area_id};
-}
-
-sub region {
-    my ($self) = @_;
-
-    return $self->{region};
-}
-
-sub region_id {
-    my ($self) = @_;
-
-    return $self->{region_id};
-}
-
-sub city {
-    my ($self) = @_;
-
-    return $self->{city};
-}
-
-sub city_id {
-    my ($self) = @_;
-
-    return $self->{city_id};
-}
-
-sub county {
-    my ($self) = @_;
-
-    return $self->{county};
-}
-
-sub county_id {
-    my ($self) = @_;
-
-    return $self->{county_id};
-}
-
-sub isp {
-    my ($self) = @_;
-
-    return $self->{isp};
-}
-
-sub isp_id {
-    my ($self) = @_;
-
-    return $self->{isp_id};
+    return $self->{$name};
 }
 
 1;
