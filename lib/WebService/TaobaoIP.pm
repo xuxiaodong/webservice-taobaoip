@@ -1,6 +1,6 @@
 package WebService::TaobaoIP;
+
 # ABSTRACT: Perl interface to Taobao IP API
-# VERSION
 use strict;
 use warnings;
 use utf8;
@@ -8,9 +8,12 @@ use Carp;
 use JSON::XS;
 use LWP::UserAgent;
 
+# VERSION
+
 binmode STDOUT, ':encoding(UTF8)';
 
-sub new {
+sub new
+{
     my ( $class, $ip ) = @_;
 
     my $self = {};
@@ -21,7 +24,8 @@ sub new {
     return $self;
 }
 
-sub _parse {
+sub _parse
+{
     my ( $self, $ip ) = @_;
 
     my $base_url = 'http://ip.taobao.com/service/getIpInfo.php?ip=';
@@ -30,21 +34,26 @@ sub _parse {
     my $ua  = LWP::UserAgent->new;
     my $res = $ua->get($full_url);
 
-    if ( $res->is_success ) {
+    if ( $res->is_success )
+    {
         my $info = JSON::XS->new->decode( $res->content );
-        if ( $info->{code} == 0 ) {
+        if ( $info->{code} == 0 )
+        {
             %$self = %{ $info->{data} };
         }
-        else {
+        else
+        {
             croak "$ip: get information failed.";
         }
     }
-    else {
+    else
+    {
         croak $res->status_line;
     }
 }
 
-sub AUTOLOAD {
+sub AUTOLOAD
+{
     my ($self) = @_;
 
     my ($name) = our $AUTOLOAD =~ /::(\w+)$/;
@@ -64,7 +73,7 @@ WebService::TaobaoIP - Perl interface to Taobao IP API
 
 =head1 VERSION
 
-Version 0.01
+Version 0.03
 
 =head1 SYNOPSIS
 
@@ -87,7 +96,7 @@ The WebService::TaobaoIP is a class implementing Taobao IP API. With it, you can
 
 =head2 $ti = WebService::TaobaoIP->new($ip)
 
-This method constructs a new WebService::TaobaoIP object. You need to provid $ip argment.
+This method constructs a new WebService::TaobaoIP object. You need to provide $ip argment.
 
 =head1 ATTRIBUTES
 
