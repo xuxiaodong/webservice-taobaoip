@@ -1,35 +1,38 @@
 package WebService::TaobaoIP;
 
-# ABSTRACT: Perl interface to Taobao IP API
-use strict;
-use warnings;
+use Moo;
 use utf8;
 use Carp;
 use JSON::XS;
 use LWP::UserAgent;
 
+# ABSTRACT: Perl interface to Taobao IP API
 # VERSION
 
 binmode STDOUT, ':encoding(UTF8)';
 
-sub new
+has 'ip' => ( is => 'rw', required => 1 );
+has 'country' => ( is => 'ro' );
+has 'area'    => ( is => 'ro' );
+has 'region'  => ( is => 'ro' );
+has 'city'    => ( is => 'ro' );
+has 'isp'     => ( is => 'ro' );
+
+sub BUILDARGS
 {
-    my ( $class, $ip ) = @_;
+    my ( $class, @args ) = @_;
 
-    my $self = {};
-    bless $self, $class;
+    unshift @args, 'ip' if @args % 2 == 1;
 
-    $self->_parse($ip);
-
-    return $self;
+    return {@args};
 }
 
-sub _parse
+sub BUILD
 {
-    my ( $self, $ip ) = @_;
+    my $self = shift;
 
     my $base_url = 'http://ip.taobao.com/service/getIpInfo.php?ip=';
-    my $full_url = $base_url . $ip;
+    my $full_url = $base_url . $self->ip;
 
     my $ua  = LWP::UserAgent->new;
     my $res = $ua->get($full_url);
@@ -37,30 +40,15 @@ sub _parse
     if ( $res->is_success )
     {
         my $info = JSON::XS->new->decode( $res->content );
-        if ( $info->{code} == 0 )
-        {
-            %$self = %{ $info->{data} };
-        }
-        else
-        {
-            croak "$ip: get information failed.";
-        }
+        $info->{code} == 0
+            ? %$self
+            = %{ $info->{data} }
+            : croak "$self->ip: get information failed.";
     }
     else
     {
         croak $res->status_line;
     }
-}
-
-sub AUTOLOAD
-{
-    my ($self) = @_;
-
-    my ($name) = our $AUTOLOAD =~ /::(\w+)$/;
-
-    croak "`$name' method not exist" unless exists $self->{$name};
-
-    return $self->{$name};
 }
 
 1;
